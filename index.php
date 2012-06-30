@@ -1,9 +1,8 @@
 <?php
 
-namespace Pictorium;
+spl_autoload_extensions(".php");
+spl_autoload_register();
 
-use Pictorium\Adelina\Template\Template;
+use Adelina\Template\Template;
 
 $template = new Template();
-
-?>

@@ -1,5 +1,7 @@
 <?php
 
+namespace Pictorium\Adelina\Template;
+
 /**
  * Template class.
  * 
@@ -13,8 +15,7 @@
  * 
  */
 
-
-class Adelina_Template {
+class Template {
 	var $classname = "Template";
 
 	// variable that holds all the data we'll be substituting into

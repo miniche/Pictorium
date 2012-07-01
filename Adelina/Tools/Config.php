@@ -209,7 +209,7 @@ class Config {
 	    $date = new \DateTime();
 	    
 	    fwrite($file_object, "; This config file was written by Adelina Framework\n");
-	    fwrite($file_object, "; Date : ". $date->format("j/m/y") ."\n\n");
+	    fwrite($file_object, "; Date : ". $date->format("J/m/y") ."\n\n");
 	    
 	    // Writing all section
 	    foreach ($this->datas as $section => $keyArray) {
@@ -237,7 +237,8 @@ class Config {
 	else
 	{
 	    // Sorry, I can't write in this file :-(
-	    return false;
+	    //return false;
+            throw new Exception("Sorry, Config can't be written in ". $filename .". Please check your rights on this file.");
 	}
     }
     

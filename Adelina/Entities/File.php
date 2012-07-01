@@ -42,7 +42,7 @@ class File
      * This file was created on...
      * @var \DateTime 
      */
-    protected $created_on;
+    protected $createdOn;
     
     
     
@@ -76,11 +76,11 @@ class File
     }
 
     public function getCreated_on() {
-	return $this->created_on;
+	return $this->createdOn;
     }
 
     public function setCreated_on($created_on) {
-	$this->created_on = $created_on;
+	$this->createdOn = $created_on;
     }
 
 

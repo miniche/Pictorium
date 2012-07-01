@@ -1,6 +1,6 @@
 <?php
 
-namespace Adelina\Template;
+namespace Adelina\Tools;
 
 /**
  * Template class.

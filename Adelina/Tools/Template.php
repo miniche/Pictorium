@@ -48,8 +48,6 @@ class Template
     public function __construct($root = "./")
     {
         $this->setRootdir($root);
-
-        echo sprintf('You have successfully instanciated the %s class!', $this->classname);
     }
 
     /**
@@ -64,7 +62,7 @@ class Template
     /**
      * Sets the template root directory for this Template object.
      */
-    private function setRootdir($dir)
+    public function setRootdir($dir)
     {
         if (!is_dir($dir)) {
             return false;
@@ -78,7 +76,7 @@ class Template
      * Sets the template filenames for handles. $filename_array
      * should be a hash of handle => filename pairs.
      */
-    private function setFilenames($filename_array)
+    public function setFilenames($filename_array)
     {
         if (!is_array($filename_array)) {
             return false;
@@ -97,7 +95,7 @@ class Template
      * and run the compiled code. This will print out
      * the results of executing the template.
      */
-    private function pparse($handle)
+    public function pparse($handle)
     {
         if (!$this->loadFile($handle)) {
             die("Template->pparse(): Impossible de charger le fichier template pour le mod�le $handle");
@@ -124,7 +122,7 @@ class Template
      * @version 0.1
      * @license A l'identique de ce fichier.
      */
-    private function getHTML($handle)
+    public function getHTML($handle)
     {
         if (!$this->loadFile($handle)) {
             die("Template->getHTML(): Impossible de charger le fichier template pour le mod�le $handle");
@@ -162,7 +160,7 @@ class Template
      * @version 0.1
      * @license A l'identique de ce fichier.
      */
-    private function getHTMLForDisplay($handle)
+    public function getHTMLForDisplay($handle)
     {
         if (!$this->loadFile($handle)) {
             die("Template->getHTMLForDisplay(): Impossible de charger le fichier template pour le mod�le $handle");
@@ -187,7 +185,7 @@ class Template
      * @version 0.1
      * @license A l'identique de ce fichier.
      */
-    private function getHTMLBrut($handle)
+    public function getHTMLBrut($handle)
     {
         if (!$this->loadFile($handle)) {
             die("Template->getHTMLBrut(): Impossible de charger le fichier template pour le mod�le $handle");
@@ -204,7 +202,7 @@ class Template
      * Note that all desired assignments to the variables in $handle should be done
      * BEFORE calling this function.
      */
-    private function assignVarFromHandle($varname, $handle)
+    public function assignVarFromHandle($varname, $handle)
     {
         if (!$this->loadFile($handle)) {
             die("Template->assignVar_from_handle(): Impossible de charger le fichier template pour le mod�le $handle");
@@ -227,7 +225,7 @@ class Template
      * variable assignments. Note that this should only be called once per block
      * iteration.
      */
-    private function assignBlockVars($blockname, $vararray)
+    public function assignBlockVars($blockname, $vararray)
     {
         if (strstr($blockname, '.')) {
             // Nested block.
@@ -260,7 +258,7 @@ class Template
      * Root-level variable assignment. Adds to current assignments, overriding
      * any existing variable assignment with the same name.
      */
-    private function assignVars($vararray)
+    public function assignVars($vararray)
     {
         reset($vararray);
         while (list($key, $val) = each($vararray)) {
@@ -274,7 +272,7 @@ class Template
      * Root-level variable assignment. Adds to current assignments, overriding
      * any existing variable assignment with the same name.
      */
-    private function assignVar($varname, $varval)
+    public function assignVar($varname, $varval)
     {
         $this->tplData['.'][0][$varname] = $varval;
 

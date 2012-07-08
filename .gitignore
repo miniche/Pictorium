@@ -58,3 +58,7 @@ nbproject/*
 app/cache/
 app/cache/*
 app/cache/dev/*
+
+# Pictorium #
+###########
+picto_*

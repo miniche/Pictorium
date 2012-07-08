@@ -45,6 +45,13 @@ class File
     protected $createdOn;
     
     
+    /**
+     * Mime Type of the file
+     * @var String 
+     */
+    protected $mimeType;
+    
+    
     
     
     //
@@ -82,6 +89,15 @@ class File
     public function setCreated_on($created_on) {
 	$this->createdOn = $created_on;
     }
+
+    public function getMimeType() {
+        return $this->mimeType;
+    }
+
+    public function setMimeType($mimeType) {
+        $this->mimeType = $mimeType;
+    }
+
 
 
 }

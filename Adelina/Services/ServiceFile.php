@@ -35,14 +35,19 @@ class ServiceFile {
             {
                 // Getting all files (and directories)
                 while(($file = readdir($dirObject)) !== false)
-                {
-                    if(is_file($file))
+                {    
+                    if(is_file($directory ."/". $file))
                     {
                         $tmpFile = new \Adelina\Entities\File();
                         $tmpFile->setName($file);
-                        $tmpFile->setPath($directory . $file);
-                        $tmpFile->setSize(filesize($file));
-                        $tmpFile->setCreated_on(filemtime($file));
+                        $tmpFile->setPath($directory ."/". $file);
+                        $tmpFile->setSize(filesize($directory ."/". $file));
+                        $tmpFile->setCreated_on(filemtime($directory ."/". $file));
+                        
+                        // We want to obtain more information on this file
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        
+                        $tmpFile->setMimeType(finfo_file($finfo, $directory ."/". $file));
                         
                         $array[count($array)] = $tmpFile;
                     }

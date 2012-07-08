@@ -11,6 +11,13 @@ use Adelina\Tools\Template;
 use Adelina\Services\ServiceFile;
 use Adelina\Tools\Config;
 
+require_once 'lib/imagine.phar';
+
+// This script require more memory to resize photos and generate tumbnails.
+ini_set('memory_limit','256M');
+        
+        
+
 // Cron : Auto-resize all photos !
 $config = new Config("config/config.ini");
 $configCron = new Config("config/cron.ini");
@@ -50,16 +57,59 @@ foreach ($arrayDirectories as $directory) {
     }
     
     
-    // TODO : Scan directory and compress photos with Imagine Library
     
+    
+    // We are getting all files in this directory
+    $arrayFiles = ServiceFile::getAllFilesInOneDirectory($folder ."/". $directory);
+    
+    foreach($arrayFiles as $file)
+    {
+        // It's a photo/picture ?
+        if($file->getMimeType() == "image/jpeg" || $file->getMimeType() == "image/gif" || $file->getMimeType() == "image/png")
+        {
+            // Ok, a (nice) photo / picture!
+            // We can open it to resize
+            $imagine = new Imagine\Gd\Imagine();            
+            
+            // Is there a tumbnail?
+            if(!is_file($folder ."/". $directory ."/picto_tumbs/". $file->getName()))
+            {
+                // No, we create it now!
+                $imagine->open($folder ."/". $directory ."/". $file->getName())
+                        ->thumbnail(new Imagine\Image\Box(100, 100))
+                        ->save($folder ."/". $directory ."/picto_tumbs/". $file->getName());
+                
+                $nbNewTumbs++;
+            }
+            
+            // Is there a small image for this photo ?
+            if(!is_file($folder ."/". $directory ."/picto_small/". $file->getName()))
+            {
+                // No, we create it now !
+                $imagine->open($folder ."/". $directory ."/". $file->getName())
+                        ->resize(new Imagine\Image\Box(1024, 1024))
+                        ->save($folder ."/". $directory ."/picto_small/". $file->getName());
+                
+                $nbNewSmall++;
+            }
+        }
+    }
+    
+    
+    // Next directory, please!
     
 }
 
+
 // Ok, we write some statistics
+$nbNewDir = $nbTumbDir+$nbSmallDir;
 $configCron->setValue("last_cron","date",  time());
-$configCron->setValue("last_cron", "new_directories", $nbTumbDir+$nbSmallDir);
+$configCron->setValue("last_cron", "new_directories", $nbNewDir);
 $configCron->setValue("last_cron", "new_tumbs", $nbNewTumbs);
 $configCron->setValue("last_cron", "new_small", $nbNewSmall);
+$configCron->saveConfigFile();
+
+echo "CRON - New folders : ". $nbNewDir ." - New Tumbnails : ". $nbNewTumbs ." - New small images : ". $nbNewSmall;
 
 
 ?>

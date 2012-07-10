@@ -3,12 +3,13 @@ html, body {
     background-color: #E3E4F0;
 }
 
-
+/* -- PAGE -- */
 .picto_container {
     margin-top: 40px;
     width: 100%
 }
 
+/* -- LEFT_MENU -- */
 .picto_container .menu {
     float: left;
     height: 100%;
@@ -49,6 +50,18 @@ html, body {
     text-decoration: none;
 }
 
+
+/* -- RIGHT_ALBUM -- */
+.album {
+    
+}
+
+.album .photo {
+    float: left;
+    margin-left: 30px;
+    width: 100px;
+    height: 100px;
+}
 
 /* The white background content wrapper */
 .container > .content {

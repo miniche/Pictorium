@@ -1,5 +1,5 @@
                 <ul>
                     <!-- BEGIN DIR -->
-                    <li><a>{DIR.NAME}</a></li>
+                    <li onclick="getRightAlbum('{DIR.NAME}');"><a>{DIR.NAME}</a></li>
                     <!-- END DIR -->
                 </ul>

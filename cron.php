@@ -69,7 +69,7 @@ foreach ($arrayDirectories as $directory) {
         {
             // Ok, a (nice) photo / picture!
             // We can open it to resize
-            $imagine = new Imagine\Gd\Imagine();            
+            $imagine = new Imagine\Gd\Imagine();
             
             // Is there a tumbnail?
             if(!is_file($folder ."/". $directory ."/picto_tumbs/". $file->getName()))
@@ -77,7 +77,7 @@ foreach ($arrayDirectories as $directory) {
                 // No, we create it now!
                 $imagine->open($folder ."/". $directory ."/". $file->getName())
                         ->thumbnail(new Imagine\Image\Box(100, 100))
-                        ->save($folder ."/". $directory ."/picto_tumbs/". $file->getName());
+                        ->save($folder ."/". $directory ."/picto_tumbs/". $file->getName(),array('quality' => 50));
                 
                 $nbNewTumbs++;
             }
@@ -86,9 +86,28 @@ foreach ($arrayDirectories as $directory) {
             if(!is_file($folder ."/". $directory ."/picto_small/". $file->getName()))
             {
                 // No, we create it now !
-                $imagine->open($folder ."/". $directory ."/". $file->getName())
-                        ->resize(new Imagine\Image\Box(1024, 1024))
-                        ->save($folder ."/". $directory ."/picto_small/". $file->getName());
+                $image = $imagine->open($folder ."/". $directory ."/". $file->getName());
+                
+                // The image is it higher or wider?
+                if($image->getSize()->getHeight() > $image->getSize()->getWidth())
+                {
+                    $newWidth = 1024;
+                    $newHeight = 1024 * $image->getSize()->getWidth() / $image->getSize()->getHeight();
+                }
+                elseif($image->getSize()->getHeight() < $image->getSize()->getWidth())
+                {
+                    $newWidth =  1024 * $image->getSize()->getHeight() / $image->getSize()->getWidth();
+                    $newHeight = 1024;
+                }
+                else
+                {
+                    // Same height and width
+                    $newHeight = 1024;
+                    $newWidth = 1024;
+                }
+                
+                $image->resize(new Imagine\Image\Box($newHeight, $newWidth))
+                        ->save($folder ."/". $directory ."/picto_small/". $file->getName(),array('quality' => 50));
                 
                 $nbNewSmall++;
             }
@@ -109,7 +128,7 @@ $configCron->setValue("last_cron", "new_tumbs", $nbNewTumbs);
 $configCron->setValue("last_cron", "new_small", $nbNewSmall);
 $configCron->saveConfigFile();
 
-echo "CRON - New folders : ". $nbNewDir ." - New Tumbnails : ". $nbNewTumbs ." - New small images : ". $nbNewSmall;
+echo "CRON at ". time() ." - New folders : ". $nbNewDir ." - New Tumbnails : ". $nbNewTumbs ." - New small images : ". $nbNewSmall;
 
 
 ?>

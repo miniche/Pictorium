@@ -9,6 +9,7 @@
 // AJAX utilities
 //
 var http_left_menu;
+var http_right_album;
 function createRequestObject()
 {
     var http;
@@ -86,7 +87,6 @@ function getLeftMenu()
     http_left_menu.send(params);
 }
 
-
 function getLeftMenuResponse()
 {
     if (http_left_menu.readyState == 4)
@@ -99,6 +99,48 @@ function getLeftMenuResponse()
 
             // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
             document.getElementById('left_menu').innerHTML =  reponse;
+
+        }
+        else
+        {
+            alert('Oops... Fichier de traitement introuvable');
+        }
+    }
+}
+
+
+function getRightAlbum(gallery)
+{
+    http_right_album = createRequestObject();
+    
+    var url = "album.php";
+    var params = "gallery="+ gallery;
+    http_right_album.open("POST", url, true);
+	
+    // Informations obligatoires pour POST
+    http_right_album.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http_right_album.setRequestHeader("Content-length", params.length);
+    http_right_album.setRequestHeader("Connection", "close");
+	
+    // Méthode appelée pour traitement du résultat
+    http_right_album.onreadystatechange = getRightAlbumResponse;
+		
+    http_right_album.send(params);
+}
+
+
+function getRightAlbumResponse()
+{
+    if (http_right_album.readyState == 4)
+    {
+        if (http_right_album.status == 200)
+        {
+            var reponse = http_right_album.responseText; 
+            //alert(reponse);
+            // On a reçu la réponse. Est-ce ok ?
+
+            // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
+            document.getElementById('right_album').innerHTML =  reponse;
 
         }
         else

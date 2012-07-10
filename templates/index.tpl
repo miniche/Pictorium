@@ -46,6 +46,10 @@
             <div id="left_menu" class="menu">
                 
             </div>
+            
+            <div id="right_album">
+                
+            </div>
         </div>
 
     </body>

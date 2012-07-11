@@ -75,8 +75,53 @@ foreach ($arrayDirectories as $directory) {
             if(!is_file($folder ."/". $directory ."/picto_tumbs/". $file->getName()))
             {
                 // No, we create it now!
-                $imagine->open($folder ."/". $directory ."/". $file->getName())
-                        ->thumbnail(new Imagine\Image\Box(100, 100))
+                // We want a squarred thumbnail.
+                // First, we are resizing the picture (as "small image", see the next pass)
+                $image = $imagine->open($folder ."/". $directory ."/". $file->getName());
+                
+                // The image is it higher or wider?
+                // We want a larger image than 100px for croping it after.
+                if($image->getSize()->getHeight() > $image->getSize()->getWidth())
+                {
+                    $newWidth = 100;
+                    $newHeight = 100 * $image->getSize()->getHeight() / $image->getSize()->getWidth();
+                }
+                elseif($image->getSize()->getHeight() < $image->getSize()->getWidth())
+                {
+                    $newWidth =  100 * $image->getSize()->getWidth() / $image->getSize()->getHeight();
+                    $newHeight = 100;
+                }
+                else
+                {
+                    // Same height and width
+                    $newHeight = 100;
+                    $newWidth = 100;
+                }
+                
+                // And now, we are cropping the picture!
+                // We only want the middle.
+                $image->resize(new Imagine\Image\Box($newWidth, $newHeight));
+                
+                
+                // Only if is not a squared picture!
+                if($newHeight < $newWidth)
+                {
+                    $point = new Imagine\Image\Point(round(($image->getSize()->getWidth() - 100) / 2),0);
+                }
+                elseif($newHeight > $newWidth)
+                {
+                    $point = new Imagine\Image\Point(0,round(($image->getSize()->getHeight() - 100) / 2));
+                }
+                
+                // Only if is not a squared picture!
+                if($newHeight != $newWidth)
+                {
+                    $image->crop($point,new Imagine\Image\Box(100,100));
+                }
+                
+                
+                // And save our beautiful thumbnail!
+                $image->thumbnail(new Imagine\Image\Box(100, 100))
                         ->save($folder ."/". $directory ."/picto_tumbs/". $file->getName(),array('quality' => 50));
                 
                 $nbNewTumbs++;
@@ -89,14 +134,14 @@ foreach ($arrayDirectories as $directory) {
                 $image = $imagine->open($folder ."/". $directory ."/". $file->getName());
                 
                 // The image is it higher or wider?
-                if($image->getSize()->getHeight() > $image->getSize()->getWidth())
+                if($image->getSize()->getHeight() < $image->getSize()->getWidth())
                 {
                     $newWidth = 1024;
-                    $newHeight = 1024 * $image->getSize()->getWidth() / $image->getSize()->getHeight();
+                    $newHeight = 1024 * $image->getSize()->getHeight() / $image->getSize()->getWidth();
                 }
-                elseif($image->getSize()->getHeight() < $image->getSize()->getWidth())
+                elseif($image->getSize()->getHeight() > $image->getSize()->getWidth())
                 {
-                    $newWidth =  1024 * $image->getSize()->getHeight() / $image->getSize()->getWidth();
+                    $newWidth =  1024 * $image->getSize()->getWidth() / $image->getSize()->getHeight();
                     $newHeight = 1024;
                 }
                 else
@@ -106,7 +151,7 @@ foreach ($arrayDirectories as $directory) {
                     $newWidth = 1024;
                 }
                 
-                $image->resize(new Imagine\Image\Box($newHeight, $newWidth))
+                $image->resize(new Imagine\Image\Box($newWidth,$newHeight))
                         ->save($folder ."/". $directory ."/picto_small/". $file->getName(),array('quality' => 50));
                 
                 $nbNewSmall++;

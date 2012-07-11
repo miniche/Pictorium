@@ -10,22 +10,19 @@ use Adelina\Tools\Config;
 $config = new Config("config/config.ini");
 
 // Where is the directory with all photos ?
-if ($config->getValue("folder", "main_folder") === "true") {
-    $folder = "Photos";
-} else {
-    $folder = $config->getValue("folder", "directory");
-}
+$folder = $config->getValue("folders", "main");
+$dir_thumbs = $config->getValue("folders", "thumbnails");
 
 // Getting all directories (albums) in your folder
-$arrayDirectories = ServiceFile::getAllFilesInOneDirectory($folder ."/". $_POST['gallery'] ."/picto_tumbs/");
+$arrayFiles = ServiceFile::getAllFilesInOneDirectory($folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/");
 
 // Ok, we'r displaying all directories !
 
 $template = new Template("templates");
 $template->setFilenames(array("MENU" => "album.tpl"));
 
-foreach ($arrayDirectories as $directory) {
-    $template->assignBlockVars("PHOTOS", array("NAME" => $directory->getName(), "FILE" => $folder ."/". $_POST['gallery'] ."/picto_tumbs/". $directory->getName()));
+foreach ($arrayFiles as $file) {
+    $template->assignBlockVars("PHOTOS", array("NAME" => $file->getName(), "FILE" => $folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/". $file->getName()));
 }
 
 $template->pparse("MENU");

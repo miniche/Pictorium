@@ -15,11 +15,7 @@ use Adelina\Tools\Config;
 $config = new Config("config/config.ini");
 
 // Where is the directory with all photos ?
-if ($config->getValue("folder", "main_folder") === "true") {
-    $folder = "Photos";
-} else {
-    $folder = $config->getValue("folder", "directory");
-}
+$folder = $config->getValue("folders", "main");
 
 // Getting all directories (albums) in your folder
 $arrayDirectories = ServiceFile::getAllDirectoriesInOneDirectory($folder);

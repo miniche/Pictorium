@@ -23,11 +23,9 @@ $config = new Config("config/config.ini");
 $configCron = new Config("config/cron.ini");
 
 // Where is the directory with all photos ?
-if ($config->getValue("folder", "main_folder") === "true") {
-    $folder = "Photos";
-} else {
-    $folder = $config->getValue("folder", "directory");
-}
+$folder = $config->getValue("folders", "main");
+$dir_thumbs = $config->getValue("folders", "thumbnails");
+$dir_small = $config->getValue("folders", "small");
 
 
 // Var for statistics
@@ -42,17 +40,17 @@ $arrayDirectories = ServiceFile::getAllDirectoriesInOneDirectory($folder);
 foreach ($arrayDirectories as $directory) {
     
     // We are looking for all sub directories (tumb, etc...)
-    if(!file_exists($folder ."/". $directory ."/picto_tumbs") && !is_dir($folder ."/". $directory ."/picto_tumbs"))
+    if(!file_exists($folder ."/". $directory ."/". $dir_thumbs) && !is_dir($folder ."/". $directory ."/". $dir_thumbs))
     {
         // Ok, we're creating the folder for thumbnails
-        mkdir($folder ."/". $directory ."/picto_tumbs");
+        mkdir($folder ."/". $directory ."/". $dir_thumbs);
         $nbTumbDir++;
     }
     
-    if(!file_exists($folder ."/". $directory ."/picto_small") && !is_dir($folder ."/". $directory ."/picto_small"))
+    if(!file_exists($folder ."/". $directory ."/". $dir_small) && !is_dir($folder ."/". $directory ."/". $dir_small))
     {
         // Ok, we're creating the folder for compressed photos
-        mkdir($folder ."/". $directory ."/picto_small");
+        mkdir($folder ."/". $directory ."/". $dir_small);
         $nbTumbDir++;
     }
     
@@ -72,7 +70,7 @@ foreach ($arrayDirectories as $directory) {
             $imagine = new Imagine\Gd\Imagine();
             
             // Is there a tumbnail?
-            if(!is_file($folder ."/". $directory ."/picto_tumbs/". $file->getName()))
+            if(!is_file($folder ."/". $directory ."/". $dir_thumbs ."/". $file->getName()))
             {
                 // No, we create it now!
                 // We want a squarred thumbnail.
@@ -122,13 +120,13 @@ foreach ($arrayDirectories as $directory) {
                 
                 // And save our beautiful thumbnail!
                 $image->thumbnail(new Imagine\Image\Box(100, 100))
-                        ->save($folder ."/". $directory ."/picto_tumbs/". $file->getName(),array('quality' => 50));
+                        ->save($folder ."/". $directory ."/". $dir_thumbs ."/". $file->getName(),array('quality' => 50));
                 
                 $nbNewTumbs++;
             }
             
             // Is there a small image for this photo ?
-            if(!is_file($folder ."/". $directory ."/picto_small/". $file->getName()))
+            if(!is_file($folder ."/". $directory ."/". $dir_small ."/". $file->getName()))
             {
                 // No, we create it now !
                 $image = $imagine->open($folder ."/". $directory ."/". $file->getName());
@@ -152,7 +150,7 @@ foreach ($arrayDirectories as $directory) {
                 }
                 
                 $image->resize(new Imagine\Image\Box($newWidth,$newHeight))
-                        ->save($folder ."/". $directory ."/picto_small/". $file->getName(),array('quality' => 50));
+                        ->save($folder ."/". $directory ."/". $dir_small ."/". $file->getName(),array('quality' => 50));
                 
                 $nbNewSmall++;
             }

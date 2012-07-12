@@ -14,7 +14,8 @@ $folder = $config->getValue("folders", "main");
 $dir_thumbs = $config->getValue("folders", "thumbnails");
 
 // Getting all directories (albums) in your folder
-$arrayFiles = ServiceFile::getAllFilesInOneDirectory($folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/");
+//$arrayFiles = ServiceFile::getAllFilesInOneDirectory($folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/");
+$arrayFiles = ServiceFile::getAllPicturesInOneDirectory($folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/");
 
 // Ok, we'r displaying all directories !
 

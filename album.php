@@ -23,10 +23,8 @@ $template = new Template("templates");
 $template->setFilenames(array("MENU" => "album.tpl"));
 
 foreach ($arrayFiles as $file) {
-    $template->assignBlockVars("PHOTOS", array("NAME" => $file->getName(), "FILE" => $folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/". $file->getName()));
+    $template->assignBlockVars("PHOTOS", array("NAME" => $file->getName(),"DIR"=> $_POST['gallery'], "FILE" => $folder ."/". $_POST['gallery'] ."/". $dir_thumbs ."/". $file->getName()));
 }
 
 $template->pparse("MENU");
 
-
-?>

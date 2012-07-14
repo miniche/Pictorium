@@ -10,6 +10,7 @@
 //
 var http_left_menu;
 var http_right_album;
+var http_display_photo;
 function createRequestObject()
 {
     var http;
@@ -109,6 +110,9 @@ function getLeftMenuResponse()
 }
 
 
+//
+// Functions on left menu
+//
 function getRightAlbum(gallery)
 {
     http_right_album = createRequestObject();
@@ -149,3 +153,49 @@ function getRightAlbumResponse()
         }
     }
 }
+
+
+//
+// Function on a album
+//
+function getDisplayPhoto(gallery,photo)
+{
+    http_display_photo = createRequestObject();
+    
+    var url = "photo.php";
+    var params = "gallery="+ gallery +"&photo="+ photo;
+    http_display_photo.open("POST", url, true);
+
+    // Informations obligatoires pour POST
+    http_display_photo.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http_display_photo.setRequestHeader("Content-length", params.length);
+    http_display_photo.setRequestHeader("Connection", "close");
+	
+    // Méthode appelée pour traitement du résultat
+    http_display_photo.onreadystatechange = getDisplayPhotoResponse;
+		
+    http_display_photo.send(params);
+}
+
+
+function getDisplayPhotoResponse()
+{
+    if (http_display_photo.readyState == 4)
+    {
+        if (http_display_photo.status == 200)
+        {
+            var reponse = http_display_photo.responseText; 
+            //alert(reponse);
+            // On a reçu la réponse. Est-ce ok ?
+
+            // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
+            document.getElementById('right_album').innerHTML =  reponse;
+
+        }
+        else
+        {
+            alert('Oops... Fichier de traitement introuvable');
+        }
+    }
+}
+

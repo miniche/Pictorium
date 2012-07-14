@@ -3,9 +3,9 @@
 <div class="album">
     
     <!-- BEGIN PHOTOS -->
-    <div class="photo">
-        <img src="{PHOTOS.FILE}" />
-    </div>
+    <a href="#" class="photo" onclick="getDisplayPhoto('{PHOTOS.DIR}','{PHOTOS.NAME}');">
+        <img src="{PHOTOS.FILE}" width="100" height="100" />
+    </a>
     <!-- END PHOTOS -->
     
     <div style="clear:both;"></div>

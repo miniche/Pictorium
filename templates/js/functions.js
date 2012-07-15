@@ -4,6 +4,14 @@
  * 
  */
 
+//
+// Main vars
+//
+var is_mobile = false;
+var mobile_width_limit = 600;
+
+var current_window_width = 0;
+var current_window_height = 0;
 
 //
 // AJAX utilities
@@ -51,20 +59,36 @@ function onResizeDocument()
 function designWindow(){
     
     // it's a smartphone/a small device or a computer/a tablet ?
+    current_window_width = window.innerWidth;
+    current_window_height = window.innerHeight;
     
-    //alert(document.height);
-    
-    if(document.width <= 600)
+    // Is a mobile version ?
+    if(current_window_width <= 600)
     {
-        document.getElementById("left_menu").style.width = document.width +"px";
+        is_mobile = true;
+    }
+    else
+    {
+        is_mobile = false;
+    }
+    
+    console.log(window.innerWidth);
+    
+    // We draw the window.
+    if(is_mobile)
+    {
+        document.getElementById("left_menu").style.width = current_window_width +"px";
+        document.getElementById("main_right").style.width = current_window_width +"px";
     }
     else
     {
         document.getElementById("left_menu").style.width = "200px";
+        document.getElementById("main_right").style.width = current_window_width +"px";
     }
     
     // For the left menu
-    document.getElementById("left_menu").style.height = document.height - 40 +"px";
+    document.getElementById("left_menu").style.height = current_window_height - 40 +"px";
+    document.getElementById("main_right").style.height = current_window_height - 40 +"px";
     
 }
 
@@ -123,8 +147,8 @@ function getRightAlbum(gallery)
 	
     // Informations obligatoires pour POST
     http_right_album.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http_right_album.setRequestHeader("Content-length", params.length);
-    http_right_album.setRequestHeader("Connection", "close");
+    //http_right_album.setRequestHeader("Content-length", params.length);
+    //http_right_album.setRequestHeader("Connection", "close");
 	
     // Méthode appelée pour traitement du résultat
     http_right_album.onreadystatechange = getRightAlbumResponse;
@@ -144,7 +168,7 @@ function getRightAlbumResponse()
             // On a reçu la réponse. Est-ce ok ?
 
             // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
-            document.getElementById('right_album').innerHTML =  reponse;
+            document.getElementById('main_right').innerHTML =  reponse;
 
         }
         else
@@ -168,8 +192,8 @@ function getDisplayPhoto(gallery,photo)
 
     // Informations obligatoires pour POST
     http_display_photo.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http_display_photo.setRequestHeader("Content-length", params.length);
-    http_display_photo.setRequestHeader("Connection", "close");
+    //http_display_photo.setRequestHeader("Content-length", params.length);
+    //http_display_photo.setRequestHeader("Connection", "close");
 	
     // Méthode appelée pour traitement du résultat
     http_display_photo.onreadystatechange = getDisplayPhotoResponse;
@@ -189,7 +213,7 @@ function getDisplayPhotoResponse()
             // On a reçu la réponse. Est-ce ok ?
 
             // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
-            document.getElementById('right_album').innerHTML =  reponse;
+            document.getElementById('main_right').innerHTML =  reponse;
 
         }
         else

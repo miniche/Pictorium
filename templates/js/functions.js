@@ -13,6 +13,10 @@ var mobile_width_limit = 600;
 var current_window_width = 0;
 var current_window_height = 0;
 
+// Photos
+var current_photo_width = 0;
+var current_photo_height = 0;
+
 //
 // AJAX utilities
 //
@@ -90,6 +94,17 @@ function designWindow(){
     document.getElementById("left_menu").style.height = current_window_height - 40 +"px";
     document.getElementById("main_right").style.height = current_window_height - 40 +"px";
     
+    
+    // Resize the main photo
+    designPhoto();
+    
+}
+
+function designPhoto() {
+    
+    // Change size of the main image.
+    document.getElementById("main_photo_img").style.width = current_window_width - 400 +"px";
+    document.getElementById("main_photo_img").style.height = current_window_height - 200 +"px";
 }
 
 
@@ -103,8 +118,8 @@ function getLeftMenu()
 	
     // Informations obligatoires pour POST
     http_left_menu.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http_left_menu.setRequestHeader("Content-length", params.length);
-    http_left_menu.setRequestHeader("Connection", "close");
+    //http_left_menu.setRequestHeader("Content-length", params.length);
+    //http_left_menu.setRequestHeader("Connection", "close");
 	
     // Méthode appelée pour traitement du résultat
     http_left_menu.onreadystatechange = getLeftMenuResponse;
@@ -168,7 +183,10 @@ function getRightAlbumResponse()
             // On a reçu la réponse. Est-ce ok ?
 
             // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
-            document.getElementById('main_right').innerHTML =  reponse;
+            document.getElementById('main_album').innerHTML =  reponse;
+            
+            // Display album
+            returnToAlbum();
 
         }
         else
@@ -210,10 +228,31 @@ function getDisplayPhotoResponse()
         {
             var reponse = http_display_photo.responseText; 
             //alert(reponse);
-            // On a reçu la réponse. Est-ce ok ?
-
-            // Dans ce cas, le client existe déjà (du moins, son mail est enregistré).
-            document.getElementById('main_right').innerHTML =  reponse;
+            // Parsing in JSON
+            var datas = JSON.parse(reponse);
+            
+            // We verify the status
+            if(datas.status == "ok")
+            {
+                // OK, we want to display this image!
+                //alert("OK : "+ datas.name);
+                
+                document.getElementById('main_photo_title').innerHTML = datas.name;
+                document.getElementById("main_photo_img").src = datas.url_compressed;
+                document.getElementById("main_photo_btn_return_lib").innerHTML = datas.gallery;
+                                
+                // Displaying the image part !
+                document.getElementById("main_photo_id").style.display='block';
+                document.getElementById("main_album").style.display='none';
+            }
+            else
+            {
+                // An error...
+                alert("Error : "+ datas.status);
+            }
+            
+        // Updated che on 16th july 2012 : full ajax!
+        //document.getElementById('main_right').innerHTML =  reponse;
 
         }
         else
@@ -223,3 +262,14 @@ function getDisplayPhotoResponse()
     }
 }
 
+
+//
+// Functions on a image
+//
+
+function returnToAlbum(){
+    
+    document.getElementById("main_photo_id").style.display='none';
+    document.getElementById("main_album").style.display='block';
+    
+}

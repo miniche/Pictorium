@@ -55,12 +55,12 @@
                 </div>
                 
                 <!-- Displaying one photo -->
-                <div class="main_photo" style="display:none;">
+                <div id="main_photo_id" class="display_photo" style="display:none;">
 
                     <div class="bar">
-                        <a class="return btn btn-inverse" onclick="getRightAlbum('{PHOTO_GALLERY}');">< {PHOTO_GALLERY}</a>
+                        <a id="main_photo_btn_return" class="return btn btn-inverse" onclick="returnToAlbum();">< <span id="main_photo_btn_return_lib">BTN_RETURN</span></a>
 
-                        <div class="title">{PHOTO_NAME}</div>
+                        <div id="main_photo_title" class="title">LIB_TITLE</div>
 
                         <a class="download btn btn-inverse"><i class=" icon-download icon-white"></i></a>
 
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="photo">
-                        <img width="1024" src="{PHOTO_PATH}" alt="{PHOTO_NAME}" />
+                        <img id="main_photo_img" src="{PHOTO_PATH}" alt="{PHOTO_NAME}" />
                     </div>
 
                 </div>

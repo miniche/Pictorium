@@ -53,7 +53,7 @@
                 <div id="main_album">
 
                 </div>
-                
+
                 <!-- Displaying one photo -->
                 <div id="main_photo_id" class="display_photo" style="display:none;">
 
@@ -66,6 +66,10 @@
 
                         <div class="clear"></div>
 
+                    </div>
+                    <div class="debug">
+                        <span id="photo_input_datas_width">0</span> x 
+                        <span id="photo_input_datas_height">0</span>
                     </div>
 
                     <div class="photo">

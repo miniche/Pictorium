@@ -121,6 +121,11 @@ html, body {
     clear: both;
 }
 
+.debug {
+    display:block;
+    background-color: red;
+    color: #fff;
+}
 /* The white background content wrapper */
 .container > .content {
     background-color: #fff;

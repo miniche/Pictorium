@@ -101,10 +101,94 @@ function designWindow(){
 }
 
 function designPhoto() {
-    
+
     // Change size of the main image.
-    document.getElementById("main_photo_img").style.width = current_window_width - 400 +"px";
-    document.getElementById("main_photo_img").style.height = current_window_height - 200 +"px";
+    // First, getting max sizes (from the window size)
+    var max_width = current_window_width - 400;
+    var max_height = current_window_height - 200;
+    
+    var new_width = 0;
+    var new_height = 0;
+    
+    // The photo is bigger than max values ?
+    if(current_photo_width > max_width)
+    {
+        // Yes, it's bigger!
+            // Resizing the photo...
+            new_width = max_width;
+            
+            // calculate the height
+            new_height = parseFloat(new_width) * parseFloat(current_photo_height) / parseFloat(current_photo_width);
+            console.log("Yeah ");
+    }
+    
+    
+    if(current_photo_height > max_height)
+    {
+        // Yes, it's bigger!
+
+            // Resizing the photo...
+            new_height = max_height;
+            
+            // calculate the width
+            new_width = parseFloat(new_height) * parseFloat(current_photo_width) / parseFloat(current_photo_height);
+            console.log("Oh");
+    }
+    
+    /*
+    if(current_photo_width > current_photo_height)
+    {
+        
+        // Wider !
+        if(current_photo_width > max_width)
+        {
+            
+            
+            // Verifying if the new_height isn't highter than max_height.
+            if(new_height > max_height)
+            {
+                // It's heighter. We must resize for a second time!
+                // We take the max_height as reference.
+                new_height = max_height;
+                new_width = new_height * current_photo_width / current_photo_height;
+            }
+        }
+        else
+        {
+            // The photo is smaller than the limits
+            new_width = current_photo_width;
+            new_height = current_photo_height;
+        }
+    }
+    else if(current_photo_width < current_photo_height)
+    {
+        
+        // Taller!
+        if(current_photo_height > max_height)
+        {
+            // Resizing the photo...
+            new_height = max_height;
+            
+            // calculate the width
+            new_width = parseFloat(new_height) * parseFloat(current_photo_width) / parseFloat(current_photo_height);
+        }
+        else
+        {
+            // The photo is smaller than the limits
+            new_width = current_photo_width;
+            new_height = current_photo_height;
+        }
+    }
+    else
+    {
+        //Squarred photo!
+        new_width = max_width;
+        new_height = max_height;
+    }
+    */
+   
+    document.getElementById("main_photo_img").style.width = new_width +"px";
+    document.getElementById("main_photo_img").style.height = new_height +"px";
 }
 
 
@@ -240,10 +324,19 @@ function getDisplayPhotoResponse()
                 document.getElementById('main_photo_title').innerHTML = datas.name;
                 document.getElementById("main_photo_img").src = datas.url_compressed;
                 document.getElementById("main_photo_btn_return_lib").innerHTML = datas.gallery;
-                                
+                
+                // Image size !
+                current_photo_height = datas.height;
+                current_photo_width = datas.width;
+                document.getElementById("photo_input_datas_width").innerHTML = datas.width;
+                document.getElementById("photo_input_datas_height").innerHTML = datas.height;
+                
                 // Displaying the image part !
                 document.getElementById("main_photo_id").style.display='block';
                 document.getElementById("main_album").style.display='none';
+                
+                // calculate image position
+                designPhoto();
             }
             else
             {

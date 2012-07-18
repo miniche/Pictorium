@@ -10,7 +10,6 @@
         <div class="clear"></div>
         
     </div>
-    
     <div class="photo">
         <img width="1024" src="{PHOTO_PATH}" alt="{PHOTO_NAME}" />
     </div>

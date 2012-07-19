@@ -119,7 +119,6 @@ function designPhoto() {
             
         // calculate the height
         new_height = parseFloat(new_width) * parseFloat(current_photo_height) / parseFloat(current_photo_width);
-        console.log("Yeah ");
     }
     
     
@@ -132,7 +131,6 @@ function designPhoto() {
             
         // calculate the width
         new_width = parseFloat(new_height) * parseFloat(current_photo_width) / parseFloat(current_photo_height);
-        console.log("Oh");
     }
     
     /*
@@ -189,6 +187,20 @@ function designPhoto() {
    
     document.getElementById("main_photo_img").style.width = new_width +"px";
     document.getElementById("main_photo_img").style.height = new_height +"px";
+    
+    
+    //
+    // Now, calculating margins...
+    //
+    var current_album_height = current_window_height - 40 - 40;
+    var current_album_width = current_window_width - 200;
+    
+    var new_margin_album_height = (current_album_height - new_height)/2;
+    var new_margin_album_width = (current_album_width - new_width)/2;
+    
+    document.getElementById("main_photo_img").style.marginTop = new_margin_album_height +"px";
+    document.getElementById("main_photo_img").style.marginLeft = new_margin_album_width +"px";
+        
 }
 
 

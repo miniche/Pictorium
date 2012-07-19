@@ -7,6 +7,8 @@
 //
 // Main vars
 //
+var app_name = "Pictorium";
+var title_separator = " on ";
 var is_mobile = false;
 var mobile_width_limit = 600;
 
@@ -203,6 +205,18 @@ function designPhoto() {
         
 }
 
+function changeTitle(new_title)
+{
+    if(new_title == "")
+    {
+        document.title = app_name;
+    }
+    else
+    {
+        document.title = new_title + title_separator + app_name;
+    }
+    
+}
 
 function getLeftMenu()
 {
@@ -347,6 +361,9 @@ function getDisplayPhotoResponse()
                 document.getElementById("main_photo_id").style.display='block';
                 document.getElementById("main_album").style.display='none';
                 
+                // Changing name of the window
+                changeTitle(datas.name);
+                
                 // calculate image position
                 designPhoto();
             }
@@ -373,6 +390,8 @@ function getDisplayPhotoResponse()
 //
 
 function returnToAlbum(){
+    
+    changeTitle("");
     
     document.getElementById("main_photo_id").style.display='none';
     document.getElementById("main_album").style.display='block';

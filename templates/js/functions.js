@@ -107,32 +107,32 @@ function designPhoto() {
     var max_width = current_window_width - 400;
     var max_height = current_window_height - 200;
     
-    var new_width = 0;
-    var new_height = 0;
+    var new_width = current_photo_width;
+    var new_height = current_photo_height;
     
     // The photo is bigger than max values ?
-    if(current_photo_width > max_width)
+    if(new_width > max_width)
     {
         // Yes, it's bigger!
-            // Resizing the photo...
-            new_width = max_width;
+        // Resizing the photo...
+        new_width = max_width;
             
-            // calculate the height
-            new_height = parseFloat(new_width) * parseFloat(current_photo_height) / parseFloat(current_photo_width);
-            console.log("Yeah ");
+        // calculate the height
+        new_height = parseFloat(new_width) * parseFloat(current_photo_height) / parseFloat(current_photo_width);
+        console.log("Yeah ");
     }
     
     
-    if(current_photo_height > max_height)
+    if(new_height > max_height)
     {
         // Yes, it's bigger!
 
-            // Resizing the photo...
-            new_height = max_height;
+        // Resizing the photo...
+        new_height = max_height;
             
-            // calculate the width
-            new_width = parseFloat(new_height) * parseFloat(current_photo_width) / parseFloat(current_photo_height);
-            console.log("Oh");
+        // calculate the width
+        new_width = parseFloat(new_height) * parseFloat(current_photo_width) / parseFloat(current_photo_height);
+        console.log("Oh");
     }
     
     /*
